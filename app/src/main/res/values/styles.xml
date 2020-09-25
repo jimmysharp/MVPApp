@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <style name="AppTheme" parent="Base.AppTheme" />
+
+    <style name="Base.AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="colorPrimary">#607D8B</item>
+        <item name="colorOnPrimary">#ffffff</item>
+        <item name="colorSecondary">#009688</item>
+        <item name="colorOnSecondary">#ffffff</item>
+        <item name="colorOnBackground">#000000</item>
+        <item name="colorSurface">#ffffff</item>
+        <item name="colorOnSurface">#000000</item>
+        <item name="colorError">#b00020</item>
+        <item name="colorOnError">#ffffff</item>
+        <item name="android:statusBarColor">#607D8B</item>
+    </style>
+</resources>

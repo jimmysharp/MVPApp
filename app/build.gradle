@@ -1,0 +1,105 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
+apply plugin: "androidx.navigation.safeargs.kotlin"
+
+android {
+    compileSdkVersion 29
+
+    // Android基本設定
+    defaultConfig {
+        applicationId "com.nifty.mvpapp"  // アプリのID
+        minSdkVersion 23                  // 最低要求OSバージョン (これ未満のバージョンにはインストール不可)
+        targetSdkVersion 29               // ターゲットOSバージョン (これを超えるバージョンでは互換モード動作)
+        versionCode 1                     // アプリのバージョン (大きいものを新しいバージョンとみなす)
+        versionName "1.0"                 // アプリのバージョン (ユーザー表示用)
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    // ビルドタイプ
+    // debugとreleaseが予め定義されている
+    // debugではデバッガ(ステップ実行など)がONになる
+    // 以下ではさらに、releaseのみ難読化(minify)とリソース圧縮(shrinkResources)をONにしている
+    buildTypes {
+        debug {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            testProguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguardTest-rules.pro'
+        }
+
+        release {
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            testProguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguardTest-rules.pro'
+        }
+    }
+
+    // フレーバー
+    // 本番環境用(production)、検証環境用(staging)、モック実行用(mock)など
+    // 環境に応じて一部コードを入れ替えてビルドする用途で使う
+    // フレーバーごとのコードはsrc/{flavor_name}以下に置く
+    flavorDimensions "default"
+    productFlavors {
+        mock {
+            dimension "default"
+            // アプリIDの変更
+            // IDが同じだと同一アプリとみなされて端末内に共存できないので
+            // suffixをつけて別IDにする
+            applicationIdSuffix = ".mock"
+        }
+        production {
+            dimension "default"
+        }
+    }
+
+    // "mock"かつ"release"をビルドすることはないので、削除
+    android.variantFilter { variant ->
+        if (variant.buildType.name == 'release'
+                && variant.getFlavors().get(0).name == 'mock') {
+            variant.setIgnore(true)
+        }
+    }
+
+    // 言語レベルをJava1.8にする
+    compileOptions {
+        sourceCompatibility = 1.8
+        targetCompatibility = 1.8
+    }
+
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: "libs", include: ["*.jar"])
+
+    // Kotlin
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    implementation 'androidx.core:core-ktx:1.3.1'
+    implementation "androidx.fragment:fragment-ktx:1.2.5"
+
+    // バージョン互換ライブラリ(AppCompat)
+    implementation 'androidx.appcompat:appcompat:1.2.0'
+
+    // UI部品
+    implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
+    implementation "androidx.recyclerview:recyclerview:1.1.0"
+    implementation "androidx.cardview:cardview:1.0.0"
+    implementation "com.google.android.material:material:1.2.1"
+
+    // 画面遷移(Navigation Architecture Component)
+    implementation "androidx.navigation:navigation-fragment-ktx:$navigation_version"
+    implementation "androidx.navigation:navigation-ui-ktx:$navigation_version"
+
+    // ロガー
+    implementation "com.jakewharton.timber:timber:4.7.1"
+
+    // テスト用
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+
+}
