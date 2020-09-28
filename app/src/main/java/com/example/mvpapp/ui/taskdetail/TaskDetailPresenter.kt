@@ -18,7 +18,7 @@ class TaskDetailPresenter(
         dataSource.getTask(taskId, { result ->
             when(result) {
                 is Result.Success -> view.showTaskDetail(result.data)
-                is Result.Error -> view.showError()
+                is Result.Failure -> view.showError()
             }
             view.HideLoadingIndicator()
         })

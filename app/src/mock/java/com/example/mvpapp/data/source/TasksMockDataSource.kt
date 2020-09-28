@@ -34,7 +34,7 @@ class TasksMockDataSource() : TasksDataSource{
             }, FAKE_NETWORK_DELAY_MILLIS)
         } else {
             Handler().postDelayed({
-                callback.onFinished(Result.Error(NoSuchElementException("Task ID $taskId was not found.")))
+                callback.onFinished(Result.Failure(NoSuchElementException("Task ID $taskId was not found.")))
             }, FAKE_NETWORK_DELAY_MILLIS)
         }
     }

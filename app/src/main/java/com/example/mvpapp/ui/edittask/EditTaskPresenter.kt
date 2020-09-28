@@ -20,7 +20,7 @@ class EditTaskPresenter(
             dataSource.getTask(taskId, { result ->
                 when (result) {
                     is Result.Success -> view.setTaskDetail(result.data)
-                    is Result.Error -> view.showError()
+                    is Result.Failure -> view.showError()
                 }
                 view.hideLoadingIndicator()
             })
@@ -38,7 +38,7 @@ class EditTaskPresenter(
                 view.hideLoadingIndicator()
                 when(result) {
                     is Result.Success -> view.navigateFinishEditTask()
-                    is Result.Error -> view.showError()
+                    is Result.Failure -> view.showError()
                 }
             })
         } else {
@@ -46,7 +46,7 @@ class EditTaskPresenter(
                 view.hideLoadingIndicator()
                 when(result) {
                     is Result.Success -> view.navigateFinishEditTask()
-                    is Result.Error -> view.showError()
+                    is Result.Failure -> view.showError()
                 }
             })
         }

@@ -19,7 +19,7 @@ class TaskListPresenter(
         dataSource.getAllTasks(){ result ->
             when(result) {
                 is Result.Success -> view.showTasks(result.data)
-                is Result.Error -> view.showError()
+                is Result.Failure -> view.showError()
             }
 
             view.hideLoadingIndicator()
