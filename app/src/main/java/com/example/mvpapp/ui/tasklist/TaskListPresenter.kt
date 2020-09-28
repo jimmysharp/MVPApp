@@ -16,14 +16,14 @@ class TaskListPresenter(
     override fun loadTasks() {
         view.showLoadingIndicator()
 
-        dataSource.getAllTasks(){ result ->
+        dataSource.getAllTasks({ result ->
             when(result) {
                 is Result.Success -> view.showTasks(result.data)
                 is Result.Failure -> view.showError()
             }
 
             view.hideLoadingIndicator()
-        }
+        })
     }
 
     override fun openTaskDetail(task: Task) {
@@ -32,5 +32,22 @@ class TaskListPresenter(
 
     override fun addTask() {
         view.navigateAddNewTask()
+    }
+
+    override fun deleteAllTasks() {
+        view.showLoadingIndicator()
+
+        dataSource.deleteAllTasks({ result ->
+            when(result) {
+                is Result.Success -> {
+                    view.hideLoadingIndicator()
+                    loadTasks()
+                }
+                is Result.Failure -> {
+                    view.showError()
+                    view.hideLoadingIndicator()
+                }
+            }
+        })
     }
 }

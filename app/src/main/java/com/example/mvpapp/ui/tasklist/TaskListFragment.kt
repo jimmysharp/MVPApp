@@ -1,9 +1,7 @@
 package com.example.mvpapp.ui.tasklist
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -36,7 +34,17 @@ class TaskListFragment : Fragment(), TaskListContract.View {
         taskList = root.findViewById(R.id.tasks_list)
         fab = root.findViewById(R.id.add_task_fab)
 
+        // メニューを表示させる
+        setHasOptionsMenu(true)
+
         return root
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+
+        // メニュー項目を追加
+        inflater.inflate(R.menu.task_list_menu, menu)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -47,6 +55,16 @@ class TaskListFragment : Fragment(), TaskListContract.View {
         setupRefreshLayout()
         setupFab()
         presenter.start()
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when(item.itemId) {
+            R.id.delete_all_tasks -> {
+                presenter.deleteAllTasks()
+                return true
+            }
+            else -> return super.onOptionsItemSelected(item)
+        }
     }
 
     override fun onResume() {

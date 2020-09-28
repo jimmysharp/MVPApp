@@ -32,5 +32,8 @@ interface TaskListContract {
 
         // タスク追加
         fun addTask()
+
+        // タスク全削除
+        fun deleteAllTasks()
     }
 }
