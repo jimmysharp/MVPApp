@@ -1,6 +1,7 @@
 package com.example.mvpapp.data.source
 
 import android.os.Handler
+import android.os.Looper
 import com.example.mvpapp.data.Result
 import com.example.mvpapp.data.Task
 import java.util.NoSuchElementException
@@ -19,7 +20,7 @@ class TasksMockDataSource() : TasksDataSource{
         val copy = tasks.values.toList()
 
         // 遅延を入れてコールバックを呼び出す
-        Handler().postDelayed({
+        Handler(Looper.getMainLooper()).postDelayed({
             callback.onFinished(Result.Success(copy))
         }, FAKE_NETWORK_DELAY_MILLIS)
     }
@@ -29,11 +30,11 @@ class TasksMockDataSource() : TasksDataSource{
 
         // Nullチェック
         if (task != null) {
-            Handler().postDelayed({
+            Handler(Looper.getMainLooper()).postDelayed({
                 callback.onFinished(Result.Success(task))
             }, FAKE_NETWORK_DELAY_MILLIS)
         } else {
-            Handler().postDelayed({
+            Handler(Looper.getMainLooper()).postDelayed({
                 callback.onFinished(Result.Failure(NoSuchElementException("Task ID $taskId was not found.")))
             }, FAKE_NETWORK_DELAY_MILLIS)
         }
@@ -47,7 +48,7 @@ class TasksMockDataSource() : TasksDataSource{
         val task = Task(title=title, description=description)
         tasks[task.id] = task
 
-        Handler().postDelayed({
+        Handler(Looper.getMainLooper()).postDelayed({
             callback.onFinished(Result.Success(Unit))
         }, FAKE_NETWORK_DELAY_MILLIS)
     }
@@ -55,7 +56,7 @@ class TasksMockDataSource() : TasksDataSource{
     override fun updateTask(task: Task, callback: TasksDataSource.UpdateTaskCallback) {
         tasks[task.id] = task
 
-        Handler().postDelayed({
+        Handler(Looper.getMainLooper()).postDelayed({
             callback.onFinished(Result.Success(Unit))
         }, FAKE_NETWORK_DELAY_MILLIS)
     }
@@ -63,7 +64,7 @@ class TasksMockDataSource() : TasksDataSource{
     override fun deleteAllTasks(callback: TasksDataSource.DeleteAllTasksCallback) {
         tasks.clear()
 
-        Handler().postDelayed({
+        Handler(Looper.getMainLooper()).postDelayed({
             callback.onFinished(Result.Success(Unit))
         }, FAKE_NETWORK_DELAY_MILLIS)
     }

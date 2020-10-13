@@ -4,13 +4,13 @@ apply plugin: 'kotlin-kapt'
 apply plugin: "androidx.navigation.safeargs.kotlin"
 
 android {
-    compileSdkVersion 29
+    compileSdkVersion 30
 
     // Android基本設定
     defaultConfig {
         applicationId "com.nifty.mvpapp"  // アプリのID
         minSdkVersion 23                  // 最低要求OSバージョン (これ未満のバージョンにはインストール不可)
-        targetSdkVersion 29               // ターゲットOSバージョン (これを超えるバージョンでは互換モード動作)
+        targetSdkVersion 30               // ターゲットOSバージョン (これを超えるバージョンでは互換モード動作)
         versionCode 1                     // アプリのバージョン (大きいものを新しいバージョンとみなす)
         versionName "1.0"                 // アプリのバージョン (ユーザー表示用)
 
@@ -78,7 +78,7 @@ dependencies {
 
     // Kotlin
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-    implementation 'androidx.core:core-ktx:1.3.1'
+    implementation 'androidx.core:core-ktx:1.3.2'
     implementation "androidx.fragment:fragment-ktx:1.2.5"
 
     // バージョン互換ライブラリ(AppCompat)
@@ -99,14 +99,14 @@ dependencies {
     implementation 'com.squareup.retrofit2:converter-moshi:2.9.0'
     implementation 'com.squareup.okhttp3:okhttp:4.9.0'
     implementation 'com.squareup.okhttp3:logging-interceptor:4.9.0'
-    implementation 'com.squareup.moshi:moshi-kotlin:1.9.3'
-    kapt 'com.squareup.moshi:moshi-kotlin-codegen:1.9.3'
+    implementation 'com.squareup.moshi:moshi-kotlin:1.11.0'
+    kapt 'com.squareup.moshi:moshi-kotlin-codegen:1.11.0'
 
     // ロガー
     implementation "com.jakewharton.timber:timber:4.7.1"
 
     // テスト用
-    testImplementation 'junit:junit:4.12'
+    testImplementation 'junit:junit:4.13.1'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 
