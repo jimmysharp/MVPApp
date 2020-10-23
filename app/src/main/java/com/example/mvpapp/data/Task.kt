@@ -5,7 +5,7 @@ import java.util.*
 
 @JsonClass(generateAdapter = true)
 data class Task(
-    val id: String = UUID.randomUUID().toString(),
-    val title: String = "",
-    val description: String = ""
+    val id: String,
+    val title: String,
+    val description: String
 )

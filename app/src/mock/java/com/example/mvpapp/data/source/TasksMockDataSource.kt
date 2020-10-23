@@ -4,7 +4,7 @@ import android.os.Handler
 import android.os.Looper
 import com.example.mvpapp.data.Result
 import com.example.mvpapp.data.Task
-import java.util.NoSuchElementException
+import java.util.*
 
 class TasksMockDataSource() : TasksDataSource{
 
@@ -45,7 +45,11 @@ class TasksMockDataSource() : TasksDataSource{
         description: String,
         callback: TasksDataSource.CreateTaskCallback
     ) {
-        val task = Task(title=title, description=description)
+        val task = Task(
+            UUID.randomUUID().toString(),
+            title,
+            description
+        )
         tasks[task.id] = task
 
         Handler(Looper.getMainLooper()).postDelayed({
