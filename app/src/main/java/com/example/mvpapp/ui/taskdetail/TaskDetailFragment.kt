@@ -51,7 +51,18 @@ class TaskDetailFragment : Fragment(), TaskDetailContract.View {
 
         presenter = TaskDetailInjection.providePresenter(this, this.requireContext())
         setupFab()
+    }
+
+    override fun onResume() {
+        super.onResume()
+
         presenter.start(args.taskId)
+    }
+
+    override fun onPause() {
+        super.onPause()
+
+        presenter.stop()
     }
 
     override fun showTaskDetail(task: Task) {

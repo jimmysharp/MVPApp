@@ -9,44 +9,63 @@ class EditTaskPresenter(
     private val dataSource: TasksDataSource
 ): EditTaskContract.Presenter {
 
+    // Fragment稼働中かのフラグ
+    private var isActivated: Boolean = false
+    // 表示中タスクのID
     private var taskId: String? = null
 
     override fun start(taskId: String?) {
         this.taskId = taskId
+        isActivated = true
+
+        view.hideLoadingIndicator()
 
         if (taskId != null) {
             view.showLoadingIndicator()
 
             dataSource.getTask(taskId, { result ->
-                when (result) {
-                    is Result.Success -> view.setTaskDetail(result.data)
-                    is Result.Failure -> view.showError()
+                if(isActivated) {
+                    when (result) {
+                        is Result.Success -> view.setTaskDetail(result.data)
+                        is Result.Failure -> view.showError()
+                    }
+
+                    view.hideLoadingIndicator()
                 }
-                view.hideLoadingIndicator()
             })
         }
     }
 
+    override fun stop() {
+        isActivated = false
+    }
+
     override fun saveTask(title: String, description: String) {
-        val taskIdCopy = taskId
+        val currentTaskId = taskId
 
         view.showLoadingIndicator()
 
-        if (taskIdCopy != null) {
-            val task = Task(taskIdCopy, title, description)
+        if (currentTaskId != null) {
+            val task = Task(currentTaskId, title, description)
             dataSource.updateTask(task, { result ->
-                view.hideLoadingIndicator()
-                when(result) {
-                    is Result.Success -> view.navigateFinishEditTask()
-                    is Result.Failure -> view.showError()
+                if(isActivated) {
+                    view.hideLoadingIndicator()
+
+                    when (result) {
+                        is Result.Success -> view.navigateFinishEditTask()
+                        is Result.Failure -> view.showError()
+                    }
                 }
             })
         } else {
             dataSource.createTask(title, description, { result ->
-                view.hideLoadingIndicator()
-                when(result) {
-                    is Result.Success -> view.navigateFinishEditTask()
-                    is Result.Failure -> view.showError()
+                if(isActivated) {
+                    view.hideLoadingIndicator()
+
+                    when (result) {
+                        is Result.Success -> view.navigateFinishEditTask()
+                        is Result.Failure -> view.showError()
+                    }
                 }
             })
         }

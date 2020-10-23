@@ -9,20 +9,32 @@ class TaskListPresenter(
     private val dataSource: TasksDataSource
 ): TaskListContract.Presenter {
 
+    // Fragmentが稼働しているかどうかのフラグ
+    private var isActivated: Boolean = false
+
     override fun start() {
+        view.hideLoadingIndicator()
         loadTasks()
+
+        isActivated = true
+    }
+
+    override fun stop() {
+        isActivated = false
     }
 
     override fun loadTasks() {
         view.showLoadingIndicator()
 
         dataSource.getAllTasks({ result ->
-            when(result) {
-                is Result.Success -> view.showTasks(result.data)
-                is Result.Failure -> view.showError()
-            }
+            if(isActivated) {
+                when (result) {
+                    is Result.Success -> view.showTasks(result.data)
+                    is Result.Failure -> view.showError()
+                }
 
-            view.hideLoadingIndicator()
+                view.hideLoadingIndicator()
+            }
         })
     }
 
@@ -38,14 +50,16 @@ class TaskListPresenter(
         view.showLoadingIndicator()
 
         dataSource.deleteAllTasks({ result ->
-            when(result) {
-                is Result.Success -> {
-                    view.hideLoadingIndicator()
-                    loadTasks()
-                }
-                is Result.Failure -> {
-                    view.showError()
-                    view.hideLoadingIndicator()
+            if(isActivated) {
+                when (result) {
+                    is Result.Success -> {
+                        view.hideLoadingIndicator()
+                        loadTasks()
+                    }
+                    is Result.Failure -> {
+                        view.showError()
+                        view.hideLoadingIndicator()
+                    }
                 }
             }
         })

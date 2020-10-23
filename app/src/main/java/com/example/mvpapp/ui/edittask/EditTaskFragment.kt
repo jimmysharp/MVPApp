@@ -49,7 +49,18 @@ class EditTaskFragment : Fragment(), EditTaskContract.View {
         presenter = EditTaskInjection.providePresenter(this, this.requireContext())
         setupRefreshLayout()
         setupFab()
+    }
+
+    override fun onResume() {
+        super.onResume()
+
         presenter.start(args.taskId)
+    }
+
+    override fun onPause() {
+        super.onPause()
+
+        presenter.stop()
     }
 
     override fun setTaskDetail(task: Task) {

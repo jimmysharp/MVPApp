@@ -6,7 +6,6 @@ interface TaskListContract {
     interface View {
         // タスク一覧表示
         fun showTasks(tasks: List<Task>)
-
         // 実行エラー表示
         // 本来はエラー種別ごとにメッセージを用意すべきだが、今回は1つだけ
         fun showError()
@@ -21,8 +20,9 @@ interface TaskListContract {
     }
 
     interface Presenter {
-        // 開始処理
+        // 開始・終了処理
         fun start()
+        fun stop()
 
         // タスクのロード
         fun loadTasks()
