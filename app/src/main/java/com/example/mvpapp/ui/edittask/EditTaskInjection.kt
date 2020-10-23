@@ -1,7 +1,7 @@
 package com.example.mvpapp.ui.edittask
 
 import android.content.Context
-import com.example.mvpapp.data.source.Injection
+import com.example.mvpapp.Injection
 
 object EditTaskInjection {
     fun providePresenter(
