@@ -5,20 +5,20 @@ import retrofit2.Call
 import retrofit2.http.*
 
 interface TodoApi {
-    @GET("tasks")
-    fun getAllTasks(): Call<List<Task>>
+    @GET("{userId}/tasks")
+    fun getAllTasks(@Path("userId") userId: String): Call<List<Task>>
 
-    @GET("tasks/{taskId}")
-    fun getTask(@Path("taskId") taskId: String): Call<Task>
-
-    @Headers("Content-Type:application/json")
-    @POST("tasks")
-    fun createTask(@Body task: TaskRequest): Call<Task>
+    @GET("{userId}/tasks/{taskId}")
+    fun getTask(@Path("userId") userId: String, @Path("taskId") taskId: String): Call<Task>
 
     @Headers("Content-Type:application/json")
-    @PUT("tasks/{taskId}")
-    fun updateTask(@Path("taskId") taskId: String, @Body task: Task): Call<Unit>
+    @POST("{userId}/tasks")
+    fun createTask(@Path("userId") userId: String, @Body task: TaskRequest): Call<Task>
 
-    @DELETE("tasks")
-    fun deleteAllTasks(): Call<Unit>
+    @Headers("Content-Type:application/json")
+    @PUT("{userId}/tasks/{taskId}")
+    fun updateTask(@Path("userId") userId: String, @Path("taskId") taskId: String, @Body task: Task): Call<Unit>
+
+    @DELETE("{userId}/tasks")
+    fun deleteAllTasks(@Path("userId") userId: String): Call<Unit>
 }

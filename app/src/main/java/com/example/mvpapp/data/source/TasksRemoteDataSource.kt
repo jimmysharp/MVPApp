@@ -11,8 +11,13 @@ class TasksRemoteDataSource(
     private val todoApi: TodoApi
 ): TasksDataSource {
 
+    companion object {
+        // ユーザID
+        private const val USER_ID = "hoge"
+    }
+
     override fun getAllTasks(callback: TasksDataSource.GetAllTasksCallback) {
-        todoApi.getAllTasks().enqueue(object : Callback<List<Task>>{
+        todoApi.getAllTasks(USER_ID).enqueue(object : Callback<List<Task>>{
             override fun onResponse(call: Call<List<Task>>, response: Response<List<Task>>) {
                 if(response.isSuccessful){
                     callback.onFinished(Result.Success(response.body()!!))
@@ -29,7 +34,7 @@ class TasksRemoteDataSource(
     }
 
     override fun getTask(taskId: String, callback: TasksDataSource.GetTaskCallback) {
-        todoApi.getTask(taskId).enqueue(object : Callback<Task>{
+        todoApi.getTask(USER_ID, taskId).enqueue(object : Callback<Task>{
             override fun onResponse(call: Call<Task>, response: Response<Task>) {
                 if(response.isSuccessful){
                     callback.onFinished(Result.Success(response.body()!!))
@@ -50,7 +55,7 @@ class TasksRemoteDataSource(
         description: String,
         callback: TasksDataSource.CreateTaskCallback
     ) {
-        todoApi.createTask(TaskRequest(title, description)).enqueue(object : Callback<Task>{
+        todoApi.createTask(USER_ID, TaskRequest(title, description)).enqueue(object : Callback<Task>{
             override fun onResponse(call: Call<Task>, response: Response<Task>) {
                 if(response.isSuccessful){
                     callback.onFinished(Result.Success(Unit))
@@ -67,7 +72,7 @@ class TasksRemoteDataSource(
     }
 
     override fun updateTask(task: Task, callback: TasksDataSource.UpdateTaskCallback) {
-        todoApi.updateTask(task.id, task).enqueue(object : Callback<Unit>{
+        todoApi.updateTask(USER_ID, task.id, task).enqueue(object : Callback<Unit>{
             override fun onResponse(call: Call<Unit>, response: Response<Unit>) {
                 if(response.isSuccessful){
                     callback.onFinished(Result.Success(Unit))
@@ -84,7 +89,7 @@ class TasksRemoteDataSource(
     }
 
     override fun deleteAllTasks(callback: TasksDataSource.DeleteAllTasksCallback) {
-        todoApi.deleteAllTasks().enqueue(object : Callback<Unit>{
+        todoApi.deleteAllTasks(USER_ID).enqueue(object : Callback<Unit>{
             override fun onResponse(call: Call<Unit>, response: Response<Unit>) {
                 if(response.isSuccessful){
                     callback.onFinished(Result.Success(Unit))
