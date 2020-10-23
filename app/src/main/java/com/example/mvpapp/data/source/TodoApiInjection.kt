@@ -19,7 +19,7 @@ object TodoApiInjection {
     private const val AUTH_PASSWORD = "Hoge"
 
     private val retrofit: Retrofit
-    private val service: TodoApiService
+    private val api: TodoApi
 
     init {
         val loggingInterceptor = HttpLoggingInterceptor()
@@ -45,10 +45,10 @@ object TodoApiInjection {
             .client(httpClient)
             .build()
 
-        service = retrofit.create(TodoApiService::class.java)
+        api = retrofit.create(TodoApi::class.java)
     }
 
-    fun provideTodoApiService(): TodoApiService {
-        return service
+    fun provideTodoApi(): TodoApi {
+        return api
     }
 }

@@ -4,7 +4,7 @@ import com.example.mvpapp.data.Task
 import retrofit2.Call
 import retrofit2.http.*
 
-interface TodoApiService {
+interface TodoApi {
     @GET("tasks")
     fun getAllTasks(): Call<List<Task>>
 

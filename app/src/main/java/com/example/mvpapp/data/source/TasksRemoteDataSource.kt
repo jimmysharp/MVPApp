@@ -8,11 +8,11 @@ import retrofit2.Response
 import java.lang.IllegalArgumentException
 
 class TasksRemoteDataSource(
-    private val todoApiService: TodoApiService
+    private val todoApi: TodoApi
 ): TasksDataSource {
 
     override fun getAllTasks(callback: TasksDataSource.GetAllTasksCallback) {
-        todoApiService.getAllTasks().enqueue(object : Callback<List<Task>>{
+        todoApi.getAllTasks().enqueue(object : Callback<List<Task>>{
             override fun onResponse(call: Call<List<Task>>, response: Response<List<Task>>) {
                 if(response.isSuccessful){
                     callback.onFinished(Result.Success(response.body()!!))
@@ -29,7 +29,7 @@ class TasksRemoteDataSource(
     }
 
     override fun getTask(taskId: String, callback: TasksDataSource.GetTaskCallback) {
-        todoApiService.getTask(taskId).enqueue(object : Callback<Task>{
+        todoApi.getTask(taskId).enqueue(object : Callback<Task>{
             override fun onResponse(call: Call<Task>, response: Response<Task>) {
                 if(response.isSuccessful){
                     callback.onFinished(Result.Success(response.body()!!))
@@ -50,7 +50,7 @@ class TasksRemoteDataSource(
         description: String,
         callback: TasksDataSource.CreateTaskCallback
     ) {
-        todoApiService.createTask(TaskRequest(title, description)).enqueue(object : Callback<Task>{
+        todoApi.createTask(TaskRequest(title, description)).enqueue(object : Callback<Task>{
             override fun onResponse(call: Call<Task>, response: Response<Task>) {
                 if(response.isSuccessful){
                     callback.onFinished(Result.Success(Unit))
@@ -67,7 +67,7 @@ class TasksRemoteDataSource(
     }
 
     override fun updateTask(task: Task, callback: TasksDataSource.UpdateTaskCallback) {
-        todoApiService.updateTask(task.id, task).enqueue(object : Callback<Unit>{
+        todoApi.updateTask(task.id, task).enqueue(object : Callback<Unit>{
             override fun onResponse(call: Call<Unit>, response: Response<Unit>) {
                 if(response.isSuccessful){
                     callback.onFinished(Result.Success(Unit))
@@ -84,7 +84,7 @@ class TasksRemoteDataSource(
     }
 
     override fun deleteAllTasks(callback: TasksDataSource.DeleteAllTasksCallback) {
-        todoApiService.deleteAllTasks().enqueue(object : Callback<Unit>{
+        todoApi.deleteAllTasks().enqueue(object : Callback<Unit>{
             override fun onResponse(call: Call<Unit>, response: Response<Unit>) {
                 if(response.isSuccessful){
                     callback.onFinished(Result.Success(Unit))

@@ -7,7 +7,7 @@ import com.example.mvpapp.data.source.TodoApiInjection
 
 object Injection {
 
-    private val tasksDataSource = TasksRemoteDataSource(TodoApiInjection.provideTodoApiService())
+    private val tasksDataSource = TasksRemoteDataSource(TodoApiInjection.provideTodoApi())
 
     fun provideTasksDataSource(context: Context): TasksDataSource {
         return tasksDataSource
