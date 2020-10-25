@@ -20,6 +20,8 @@ class EditTaskPresenter(
 
         view.hideLoadingIndicator()
 
+        // タスクIDを指定して呼び出された場合(更新処理の場合)
+        // 既存タスクのデータを読み込む
         if (taskId != null) {
             view.showLoadingIndicator()
 
@@ -46,6 +48,7 @@ class EditTaskPresenter(
         view.showLoadingIndicator()
 
         if (currentTaskId != null) {
+            // 既存タスク編集の場合、更新処理
             val task = Task(currentTaskId, title, description)
             dataSource.updateTask(task, { result ->
                 if(isActivated) {
@@ -58,6 +61,7 @@ class EditTaskPresenter(
                 }
             })
         } else {
+            // 新規タスク編集の場合、作成処理
             dataSource.createTask(title, description, { result ->
                 if(isActivated) {
                     view.hideLoadingIndicator()

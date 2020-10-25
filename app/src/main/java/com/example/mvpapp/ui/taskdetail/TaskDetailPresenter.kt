@@ -34,7 +34,7 @@ class TaskDetailPresenter(
     }
 
     override fun stop() {
-        //isActivated = false
+        isActivated = false
     }
 
     override fun editTask() {

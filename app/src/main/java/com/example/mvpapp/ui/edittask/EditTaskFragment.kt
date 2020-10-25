@@ -17,23 +17,32 @@ import com.example.mvpapp.ui.ScrollChildSwipeRefreshLayout
 
 class EditTaskFragment : Fragment(), EditTaskContract.View {
 
+    // Fragmentに渡される引数
     private val args: EditTaskFragmentArgs by navArgs()
 
+    // Presenter
     private lateinit var presenter: EditTaskContract.Presenter
 
+    // Viewオブジェクト
     private lateinit var rootLayout: ViewGroup
     private lateinit var refreshLayout: ScrollChildSwipeRefreshLayout
     private lateinit var titleText: EditText
     private lateinit var descriptionText: EditText
     private lateinit var fab: FloatingActionButton
 
+    //
+    // ライフサイクルメソッド
+    //
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        // XMLのロード
         val root = inflater.inflate(R.layout.edit_task_fragment, container, false)
 
+        // Viewオブジェクトの取得
         rootLayout = root.findViewById(R.id.edit_task_container)
         refreshLayout = root.findViewById(R.id.refresh_layout)
         titleText = root.findViewById(R.id.edit_task_title_edit_text)
@@ -63,12 +72,18 @@ class EditTaskFragment : Fragment(), EditTaskContract.View {
         presenter.stop()
     }
 
+    //
+    // Contractで定義したメソッド
+    //
+
     override fun setTaskDetail(task: Task) {
+        // TextViewの書き換え
         titleText.setText(task.title, TextView.BufferType.NORMAL)
         descriptionText.setText(task.description, TextView.BufferType.NORMAL)
     }
 
     override fun showError() {
+        // Snackbarにエラーメッセージを表示
         Snackbar
             .make(rootLayout, "Error", Snackbar.LENGTH_SHORT)
             .show()
@@ -83,11 +98,16 @@ class EditTaskFragment : Fragment(), EditTaskContract.View {
     }
 
     override fun navigateFinishEditTask() {
+        // タスク一覧画面へ戻る
         val action = EditTaskFragmentDirections
             .actionEditTaskFragmentToTaskListFragment()
 
         findNavController().navigate(action)
     }
+
+    //
+    // privateメソッド
+    //
 
     private fun setupRefreshLayout() {
         refreshLayout.scrollUpChild = null

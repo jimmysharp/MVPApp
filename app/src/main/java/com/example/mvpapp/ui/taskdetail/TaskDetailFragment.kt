@@ -16,8 +16,13 @@ import com.example.mvpapp.ui.ScrollChildSwipeRefreshLayout
 
 class TaskDetailFragment : Fragment(), TaskDetailContract.View {
 
+    // Fragmentに渡される引数
+    private val args: TaskDetailFragmentArgs by navArgs()
+
+    // Presenter
     private lateinit var presenter: TaskDetailContract.Presenter
 
+    // Viewオブジェクト
     private lateinit var rootLayout: ViewGroup
     private lateinit var refreshLayout: ScrollChildSwipeRefreshLayout
     private lateinit var taskDetailLayout: ViewGroup
@@ -26,15 +31,19 @@ class TaskDetailFragment : Fragment(), TaskDetailContract.View {
     private lateinit var description: TextView
     private lateinit var fab: FloatingActionButton
 
-    private val args: TaskDetailFragmentArgs by navArgs()
+    //
+    // ライフサイクルメソッド
+    //
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        // XMLのロード
         val root = inflater.inflate(R.layout.task_detail_fragment, container, false)
 
+        // Viewオブジェクトの取得
         rootLayout = root.findViewById(R.id.task_detail_container)
         refreshLayout = root.findViewById(R.id.refresh_layout)
         taskDetailLayout = root.findViewById(R.id.task_detail_layout)
@@ -65,20 +74,28 @@ class TaskDetailFragment : Fragment(), TaskDetailContract.View {
         presenter.stop()
     }
 
+    //
+    // Contractで定義したメソッド
+    //
+
     override fun showTaskDetail(task: Task) {
+        //TextViewの書き換え
         title.text = task.title
         description.text = task.description
 
+        // タスク表示用のViewを表示
         taskDetailLayout.visibility = View.VISIBLE
         noDataLayout.visibility = View.GONE
     }
 
     override fun showNoData() {
+        // データが存在しないとき用のViewを表示
         taskDetailLayout.visibility = View.GONE
         noDataLayout.visibility = View.VISIBLE
     }
 
     override fun showError() {
+        // Snackberでエラーを表示
         Snackbar
             .make(rootLayout, "Error", Snackbar.LENGTH_SHORT)
             .show()
@@ -93,11 +110,16 @@ class TaskDetailFragment : Fragment(), TaskDetailContract.View {
     }
 
     override fun navigateEditTask(taskId: String) {
+        // タスクIDを引数に、タスク編集画面へ遷移
         val action = TaskDetailFragmentDirections
             .actionTaskDetailFragmentToEditTaskFragment(taskId)
 
         findNavController().navigate(action)
     }
+
+    //
+    // privateメソッド
+    //
 
     private fun setupFab() {
         fab.setOnClickListener {

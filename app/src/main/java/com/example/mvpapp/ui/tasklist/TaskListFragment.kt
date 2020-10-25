@@ -13,14 +13,21 @@ import com.example.mvpapp.data.Task
 import com.example.mvpapp.ui.ScrollChildSwipeRefreshLayout
 
 class TaskListFragment : Fragment(), TaskListContract.View {
+
+    // Presenter
     private lateinit var presenter: TaskListContract.Presenter
 
+    // Viewオブジェクト
     private lateinit var rootLayout: CoordinatorLayout
     private lateinit var noTasksLayout: ViewGroup
     private lateinit var refreshLayout: ScrollChildSwipeRefreshLayout
     private lateinit var taskList: RecyclerView
     private lateinit var taskListAdapter: TaskListAdapter
     private lateinit var fab: FloatingActionButton
+
+    //
+    // ライフサイクルメソッド
+    //
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -54,10 +61,11 @@ class TaskListFragment : Fragment(), TaskListContract.View {
         setupRecyclerView()
         setupRefreshLayout()
         setupFab()
-        presenter.start()
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        // ActionBar上のメニューの処理
+        // ゴミ箱アイコンを押したらタスク削除を行う
         when(item.itemId) {
             R.id.delete_all_tasks -> {
                 presenter.deleteAllTasks()
@@ -73,11 +81,17 @@ class TaskListFragment : Fragment(), TaskListContract.View {
         presenter.start()
     }
 
+    //
+    // Contractで定義したメソッド
+    //
+
     override fun showTasks(tasks: List<Task>) {
         if(tasks.isEmpty()) {
+            // タスクが0の場合の表示
             taskList.visibility = View.GONE
             noTasksLayout.visibility = View.VISIBLE
         } else {
+            // タスクがある場合の表示
             taskList.visibility = View.VISIBLE
             noTasksLayout.visibility = View.GONE
 
@@ -86,6 +100,7 @@ class TaskListFragment : Fragment(), TaskListContract.View {
     }
 
     override fun showError() {
+        // スナックバーでエラー表示
         Snackbar
             .make(rootLayout, "Error", Snackbar.LENGTH_SHORT)
             .show()
@@ -100,6 +115,7 @@ class TaskListFragment : Fragment(), TaskListContract.View {
     }
 
     override fun navigateAddNewTask() {
+        // タスク追加画面へ遷移
         val action = TaskListFragmentDirections
             .actionTaskListFragmentToEditTaskFragment(null)
 
@@ -107,13 +123,19 @@ class TaskListFragment : Fragment(), TaskListContract.View {
     }
 
     override fun navigateTaskDetail(taskId: String) {
+        // タスクIDを引数とし、詳細画面へ遷移
         val action = TaskListFragmentDirections
             .actionTaskListFragmentToTaskDetailFragment(taskId)
 
         findNavController().navigate(action)
     }
 
+    //
+    // privateメソッド
+    //
+
     private fun setupRecyclerView() {
+        // RecyclerView(タスクリスト表示部分)の初期化
         taskListAdapter = TaskListAdapter({ task ->
             presenter.openTaskDetail(task)
         })
