@@ -1,28 +1,32 @@
 package com.example.mvpapp.data.source
 
-import com.example.mvpapp.data.Result
 import com.example.mvpapp.data.Task
 
 interface TasksDataSource {
 
-    fun interface GetAllTasksCallback {
-        fun onFinished(result: Result<List<Task>>)
+    interface GetAllTasksCallback {
+        fun onSuccess(tasks: List<Task>)
+        fun onError(t: Throwable)
     }
 
-    fun interface GetTaskCallback {
-        fun onFinished(result: Result<Task>)
+    interface GetTaskCallback {
+        fun onSuccess(task: Task)
+        fun onError(t: Throwable)
     }
 
-    fun interface CreateTaskCallback {
-        fun onFinished(result: Result<Unit>)
+    interface CreateTaskCallback {
+        fun onSuccess()
+        fun onError(t: Throwable)
     }
 
-    fun interface UpdateTaskCallback {
-        fun onFinished(result: Result<Unit>)
+    interface UpdateTaskCallback {
+        fun onSuccess()
+        fun onError(t: Throwable)
     }
 
-    fun interface DeleteAllTasksCallback {
-        fun onFinished(result: Result<Unit>)
+    interface DeleteAllTasksCallback {
+        fun onSuccess()
+        fun onError(t: Throwable)
     }
 
     fun getAllTasks(callback: GetAllTasksCallback)

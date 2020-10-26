@@ -1,6 +1,5 @@
 package com.example.mvpapp.ui.edittask
 
-import com.example.mvpapp.data.Result
 import com.example.mvpapp.data.Task
 import com.example.mvpapp.data.source.TasksDataSource
 
@@ -25,15 +24,23 @@ class EditTaskPresenter(
         if (taskId != null) {
             view.showLoadingIndicator()
 
-            dataSource.getTask(taskId, { result ->
-                if(isActivated) {
-                    when (result) {
-                        is Result.Success -> view.setTaskDetail(result.data)
-                        is Result.Failure -> view.showError()
+            dataSource.getTask(taskId, object : TasksDataSource.GetTaskCallback{
+                override fun onSuccess(task: Task) {
+                    if(isActivated) {
+                        // タスク取得できた場合は表示
+                        view.hideLoadingIndicator()
+                        view.setTaskDetail(task)
                     }
-
-                    view.hideLoadingIndicator()
                 }
+
+                override fun onError(t: Throwable) {
+                    if(isActivated) {
+                        // 取得できなかった場合はエラー表示
+                        view.hideLoadingIndicator()
+                        view.showError()
+                    }
+                }
+
             })
         }
     }
@@ -50,27 +57,43 @@ class EditTaskPresenter(
         if (currentTaskId != null) {
             // 既存タスク編集の場合、更新処理
             val task = Task(currentTaskId, title, description)
-            dataSource.updateTask(task, { result ->
-                if(isActivated) {
-                    view.hideLoadingIndicator()
-
-                    when (result) {
-                        is Result.Success -> view.navigateFinishEditTask()
-                        is Result.Failure -> view.showError()
+            dataSource.updateTask(task, object : TasksDataSource.UpdateTaskCallback{
+                override fun onSuccess() {
+                    if(isActivated) {
+                        // 更新できた場合はタスク一覧画面へ戻る
+                        view.hideLoadingIndicator()
+                        view.navigateFinishEditTask()
                     }
                 }
+
+                override fun onError(t: Throwable) {
+                    if(isActivated) {
+                        // 失敗した場合はエラー表示
+                        view.hideLoadingIndicator()
+                        view.showError()
+                    }
+                }
+
             })
         } else {
             // 新規タスク編集の場合、作成処理
-            dataSource.createTask(title, description, { result ->
-                if(isActivated) {
-                    view.hideLoadingIndicator()
-
-                    when (result) {
-                        is Result.Success -> view.navigateFinishEditTask()
-                        is Result.Failure -> view.showError()
+            dataSource.createTask(title, description, object : TasksDataSource.CreateTaskCallback{
+                override fun onSuccess() {
+                    if(isActivated) {
+                        // 作成できた場合はタスク一覧画面へ戻る
+                        view.hideLoadingIndicator()
+                        view.navigateFinishEditTask()
                     }
                 }
+
+                override fun onError(t: Throwable) {
+                    if(isActivated) {
+                        // 失敗した場合はエラー表示
+                        view.hideLoadingIndicator()
+                        view.showError()
+                    }
+                }
+
             })
         }
     }

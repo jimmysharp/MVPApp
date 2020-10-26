@@ -1,6 +1,6 @@
 package com.example.mvpapp.ui.taskdetail
 
-import com.example.mvpapp.data.Result
+import com.example.mvpapp.data.Task
 import com.example.mvpapp.data.source.TasksDataSource
 
 class TaskDetailPresenter(
@@ -20,16 +20,25 @@ class TaskDetailPresenter(
         // 初期画面としてデータのない画面を表示
         view.showNoData()
 
-        // ローディング表示を行い、データ取得開始
+        // データ取得開始
         view.showLoadingIndicator()
-        dataSource.getTask(taskId, { result ->
-            if(isActivated) {
-                when (result) {
-                    is Result.Success -> view.showTaskDetail(result.data)
-                    is Result.Failure -> view.showError()
+        dataSource.getTask(taskId, object : TasksDataSource.GetTaskCallback{
+            override fun onSuccess(task: Task) {
+                if(isActivated) {
+                    // データ取得できた場合は表示
+                    view.hideLoadingIndicator()
+                    view.showTaskDetail(task)
                 }
-                view.HideLoadingIndicator()
             }
+
+            override fun onError(t: Throwable) {
+                if(isActivated) {
+                    // 取得失敗した場合はエラー表示
+                    view.hideLoadingIndicator()
+                    view.showError()
+                }
+            }
+
         })
     }
 

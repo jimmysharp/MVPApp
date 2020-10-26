@@ -105,7 +105,7 @@ class TaskDetailFragment : Fragment(), TaskDetailContract.View {
         refreshLayout.post { refreshLayout.isRefreshing = true }
     }
 
-    override fun HideLoadingIndicator() {
+    override fun hideLoadingIndicator() {
         refreshLayout.post { refreshLayout.isRefreshing = false }
     }
 

@@ -1,6 +1,5 @@
 package com.example.mvpapp.data.source
 
-import com.example.mvpapp.data.Result
 import com.example.mvpapp.data.Task
 import retrofit2.Call
 import retrofit2.Callback
@@ -20,15 +19,15 @@ class TasksRemoteDataSource(
         todoApi.getAllTasks(USER_ID).enqueue(object : Callback<List<Task>>{
             override fun onResponse(call: Call<List<Task>>, response: Response<List<Task>>) {
                 if(response.isSuccessful){
-                    callback.onFinished(Result.Success(response.body()!!))
+                    callback.onSuccess(response.body()!!)
                 }
                 else {
-                    callback.onFinished(Result.Failure(IllegalArgumentException("Failed to parse response")))
+                    callback.onError(IllegalArgumentException("Failed to parse response"))
                 }
             }
 
             override fun onFailure(call: Call<List<Task>>, t: Throwable) {
-                callback.onFinished(Result.Failure(t))
+                callback.onError(t)
             }
         })
     }
@@ -37,15 +36,15 @@ class TasksRemoteDataSource(
         todoApi.getTask(USER_ID, taskId).enqueue(object : Callback<Task>{
             override fun onResponse(call: Call<Task>, response: Response<Task>) {
                 if(response.isSuccessful){
-                    callback.onFinished(Result.Success(response.body()!!))
+                    callback.onSuccess(response.body()!!)
                 }
                 else {
-                    callback.onFinished(Result.Failure(IllegalArgumentException("Failed to parse response")))
+                    callback.onError(IllegalArgumentException("Failed to parse response"))
                 }
             }
 
             override fun onFailure(call: Call<Task>, t: Throwable) {
-                callback.onFinished(Result.Failure(t))
+                callback.onError(t)
             }
         })
     }
@@ -58,15 +57,15 @@ class TasksRemoteDataSource(
         todoApi.createTask(USER_ID, TaskRequest(title, description)).enqueue(object : Callback<Task>{
             override fun onResponse(call: Call<Task>, response: Response<Task>) {
                 if(response.isSuccessful){
-                    callback.onFinished(Result.Success(Unit))
+                    callback.onSuccess()
                 }
                 else {
-                    callback.onFinished(Result.Failure(IllegalArgumentException("Failed to parse response")))
+                    callback.onError(IllegalArgumentException("Failed to parse response"))
                 }
             }
 
             override fun onFailure(call: Call<Task>, t: Throwable) {
-                callback.onFinished(Result.Failure(t))
+                callback.onError(t)
             }
         })
     }
@@ -75,15 +74,15 @@ class TasksRemoteDataSource(
         todoApi.updateTask(USER_ID, task.id, task).enqueue(object : Callback<Unit>{
             override fun onResponse(call: Call<Unit>, response: Response<Unit>) {
                 if(response.isSuccessful){
-                    callback.onFinished(Result.Success(Unit))
+                    callback.onSuccess()
                 }
                 else {
-                    callback.onFinished(Result.Failure(IllegalArgumentException("Failed to parse response")))
+                    callback.onError(IllegalArgumentException("Failed to parse response"))
                 }
             }
 
             override fun onFailure(call: Call<Unit>, t: Throwable) {
-                callback.onFinished(Result.Failure(t))
+                callback.onError(t)
             }
         })
     }
@@ -92,15 +91,15 @@ class TasksRemoteDataSource(
         todoApi.deleteAllTasks(USER_ID).enqueue(object : Callback<Unit>{
             override fun onResponse(call: Call<Unit>, response: Response<Unit>) {
                 if(response.isSuccessful){
-                    callback.onFinished(Result.Success(Unit))
+                    callback.onSuccess()
                 }
                 else {
-                    callback.onFinished(Result.Failure(IllegalArgumentException("Failed to parse response")))
+                    callback.onError(IllegalArgumentException("Failed to parse response"))
                 }
             }
 
             override fun onFailure(call: Call<Unit>, t: Throwable) {
-                callback.onFinished(Result.Failure(t))
+                callback.onError(t)
             }
         })
     }

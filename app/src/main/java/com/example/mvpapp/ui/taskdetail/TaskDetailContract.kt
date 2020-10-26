@@ -14,7 +14,7 @@ interface TaskDetailContract {
 
         // 読み込み中表示のON/OFF
         fun showLoadingIndicator()
-        fun HideLoadingIndicator()
+        fun hideLoadingIndicator()
 
         // 別画面への移動
         fun navigateEditTask(taskId: String)

@@ -1,6 +1,5 @@
 package com.example.mvpapp.ui.tasklist
 
-import com.example.mvpapp.data.Result
 import com.example.mvpapp.data.Task
 import com.example.mvpapp.data.source.TasksDataSource
 
@@ -26,15 +25,16 @@ class TaskListPresenter(
     override fun loadTasks() {
         view.showLoadingIndicator()
 
-        dataSource.getAllTasks({ result ->
-            if(isActivated) {
-                when (result) {
-                    is Result.Success -> view.showTasks(result.data)
-                    is Result.Failure -> view.showError()
-                }
-
+        dataSource.getAllTasks(object : TasksDataSource.GetAllTasksCallback{
+            override fun onSuccess(tasks: List<Task>) {
+                view.showTasks(tasks)
                 view.hideLoadingIndicator()
             }
+
+            override fun onError(t: Throwable) {
+                view.hideLoadingIndicator()
+            }
+
         })
     }
 
@@ -49,19 +49,17 @@ class TaskListPresenter(
     override fun deleteAllTasks() {
         view.showLoadingIndicator()
 
-        dataSource.deleteAllTasks({ result ->
-            if(isActivated) {
-                when (result) {
-                    is Result.Success -> {
-                        view.hideLoadingIndicator()
-                        loadTasks()
-                    }
-                    is Result.Failure -> {
-                        view.showError()
-                        view.hideLoadingIndicator()
-                    }
-                }
+        dataSource.deleteAllTasks(object : TasksDataSource.DeleteAllTasksCallback{
+            override fun onSuccess() {
+                view.hideLoadingIndicator()
+                loadTasks()
             }
+
+            override fun onError(t: Throwable) {
+                view.hideLoadingIndicator()
+                view.showError()
+            }
+
         })
     }
 }
