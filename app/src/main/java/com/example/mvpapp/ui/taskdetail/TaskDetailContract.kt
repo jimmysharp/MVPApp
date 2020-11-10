@@ -6,8 +6,6 @@ interface TaskDetailContract {
     interface View {
         // タスク詳細の表示
         fun showTaskDetail(task: Task)
-        // データがない表示
-        fun showNoData()
         // 実行エラー表示
         // 本来はエラー種別ごとにメッセージを用意すべきだが、今回は1つだけ
         fun showError()

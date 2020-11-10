@@ -17,9 +17,6 @@ class TaskDetailPresenter(
         this.taskId = taskId
         isActivated = true
 
-        // 初期画面としてデータのない画面を表示
-        view.showNoData()
-
         // データ取得開始
         view.showLoadingIndicator()
         dataSource.getTask(taskId, object : TasksDataSource.GetTaskCallback{

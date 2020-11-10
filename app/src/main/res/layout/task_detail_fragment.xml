@@ -7,12 +7,13 @@
     android:layout_height="match_parent">
 
     <!-- 「引っ張って更新」用のレイアウト -->
-    <com.example.mvpapp.ui.ScrollChildSwipeRefreshLayout
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/refresh_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <FrameLayout
+        <RelativeLayout
+            android:id="@+id/task_detail_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
@@ -21,53 +22,23 @@
             android:paddingRight="@dimen/activity_horizontal_margin"
             android:paddingBottom="@dimen/activity_vertical_margin">
 
-            <!-- データがない場合のレイアウト -->
-            <RelativeLayout
-                android:id="@+id/no_data_layout"
+            <TextView
+                android:id="@+id/task_detail_title"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:paddingLeft="@dimen/activity_horizontal_margin"
-                android:paddingTop="@dimen/activity_vertical_margin"
-                android:paddingRight="@dimen/activity_horizontal_margin"
-                android:paddingBottom="@dimen/activity_vertical_margin">
+                android:layout_height="wrap_content"
+                android:paddingTop="1dp"
+                android:textAppearance="?android:attr/textAppearanceLarge" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/no_data"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:layout_centerInParent="true"/>
-            </RelativeLayout>
-
-            <!-- データがある場合のレイアウト -->
-            <RelativeLayout
-                android:id="@+id/task_detail_layout"
+            <TextView
+                android:id="@+id/task_detail_description"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:paddingLeft="@dimen/activity_horizontal_margin"
-                android:paddingTop="@dimen/activity_vertical_margin"
-                android:paddingRight="@dimen/activity_horizontal_margin"
-                android:paddingBottom="@dimen/activity_vertical_margin">
+                android:layout_height="wrap_content"
+                android:layout_below="@id/task_detail_title"
+                android:paddingTop="1dp"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
 
-                <TextView
-                    android:id="@+id/task_detail_title"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingTop="1dp"
-                    android:textAppearance="?android:attr/textAppearanceLarge" />
-
-                <TextView
-                    android:id="@+id/task_detail_description"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/task_detail_title"
-                    android:paddingTop="1dp"
-                    android:textAppearance="?android:attr/textAppearanceMedium" />
-
-            </RelativeLayout>
-        </FrameLayout>
-    </com.example.mvpapp.ui.ScrollChildSwipeRefreshLayout>
+        </RelativeLayout>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     <!-- タスク編集ボタン -->
     <com.google.android.material.floatingactionbutton.FloatingActionButton

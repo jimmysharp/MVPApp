@@ -6,11 +6,11 @@ import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import com.example.mvpapp.R
 import com.example.mvpapp.data.Task
-import com.example.mvpapp.ui.ScrollChildSwipeRefreshLayout
 
 class TaskListFragment : Fragment(), TaskListContract.View {
 
@@ -19,8 +19,7 @@ class TaskListFragment : Fragment(), TaskListContract.View {
 
     // Viewオブジェクト
     private lateinit var rootLayout: CoordinatorLayout
-    private lateinit var noTasksLayout: ViewGroup
-    private lateinit var refreshLayout: ScrollChildSwipeRefreshLayout
+    private lateinit var refreshLayout: SwipeRefreshLayout
     private lateinit var taskList: RecyclerView
     private lateinit var taskListAdapter: TaskListAdapter
     private lateinit var fab: FloatingActionButton
@@ -36,7 +35,6 @@ class TaskListFragment : Fragment(), TaskListContract.View {
     ): View? {
         val root = inflater.inflate(R.layout.task_list_fragment, container, false)
         rootLayout = root.findViewById(R.id.task_list_container)
-        noTasksLayout = root.findViewById(R.id.no_tasks_layout)
         refreshLayout = root.findViewById(R.id.refresh_layout)
         taskList = root.findViewById(R.id.tasks_list)
         fab = root.findViewById(R.id.add_task_fab)
@@ -86,17 +84,7 @@ class TaskListFragment : Fragment(), TaskListContract.View {
     //
 
     override fun showTasks(tasks: List<Task>) {
-        if(tasks.isEmpty()) {
-            // タスクが0の場合の表示
-            taskList.visibility = View.GONE
-            noTasksLayout.visibility = View.VISIBLE
-        } else {
-            // タスクがある場合の表示
-            taskList.visibility = View.VISIBLE
-            noTasksLayout.visibility = View.GONE
-
-            taskListAdapter.submitList(tasks)
-        }
+        taskListAdapter.submitList(tasks)
     }
 
     override fun showError() {
@@ -143,7 +131,6 @@ class TaskListFragment : Fragment(), TaskListContract.View {
     }
 
     private fun setupRefreshLayout() {
-        refreshLayout.scrollUpChild = taskList
         refreshLayout.setOnRefreshListener {
             presenter.loadTasks()
         }

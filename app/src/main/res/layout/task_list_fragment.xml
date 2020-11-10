@@ -9,49 +9,19 @@
     tools:context=".ui.tasklist.TaskListFragment">
 
     <!-- 「引っ張って更新」用のレイアウト -->
-    <com.example.mvpapp.ui.ScrollChildSwipeRefreshLayout
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/refresh_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <FrameLayout
+        <!-- タスクリスト -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/tasks_list"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <!-- データがない時のレイアウト -->
-            <RelativeLayout
-                android:id="@+id/no_tasks_layout"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <ImageView
-                    android:id="@+id/no_tasks_icon"
-                    android:layout_width="96dp"
-                    android:layout_height="96dp"
-                    android:layout_centerInParent="true"
-                    android:contentDescription="@string/no_tasks_image_content_description"
-                    android:src="@drawable/logo_no_fill" />
-
-                <TextView
-                    android:id="@+id/no_tasks_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/no_tasks_icon"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginBottom="@dimen/list_item_padding"
-                    android:text="@string/no_tasks" />
-
-            </RelativeLayout>
-
-            <!-- データがある時のレイアウト -->
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/tasks_list"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                android:scrollbars="vertical"/>
-        </FrameLayout>
-    </com.example.mvpapp.ui.ScrollChildSwipeRefreshLayout>
+            android:layout_height="match_parent"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            android:scrollbars="vertical"/>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     <!-- タスク追加ボタン -->
     <com.google.android.material.floatingactionbutton.FloatingActionButton

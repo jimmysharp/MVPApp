@@ -8,11 +8,11 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import com.example.mvpapp.R
 import com.example.mvpapp.data.Task
-import com.example.mvpapp.ui.ScrollChildSwipeRefreshLayout
 
 class TaskDetailFragment : Fragment(), TaskDetailContract.View {
 
@@ -24,9 +24,8 @@ class TaskDetailFragment : Fragment(), TaskDetailContract.View {
 
     // Viewオブジェクト
     private lateinit var rootLayout: ViewGroup
-    private lateinit var refreshLayout: ScrollChildSwipeRefreshLayout
+    private lateinit var refreshLayout: SwipeRefreshLayout
     private lateinit var taskDetailLayout: ViewGroup
-    private lateinit var noDataLayout: ViewGroup
     private lateinit var title: TextView
     private lateinit var description: TextView
     private lateinit var fab: FloatingActionButton
@@ -47,7 +46,6 @@ class TaskDetailFragment : Fragment(), TaskDetailContract.View {
         rootLayout = root.findViewById(R.id.task_detail_container)
         refreshLayout = root.findViewById(R.id.refresh_layout)
         taskDetailLayout = root.findViewById(R.id.task_detail_layout)
-        noDataLayout = root.findViewById(R.id.no_data_layout)
         title = root.findViewById(R.id.task_detail_title)
         description = root.findViewById(R.id.task_detail_description)
         fab = root.findViewById(R.id.edit_task_fab)
@@ -82,16 +80,6 @@ class TaskDetailFragment : Fragment(), TaskDetailContract.View {
         //TextViewの書き換え
         title.text = task.title
         description.text = task.description
-
-        // タスク表示用のViewを表示
-        taskDetailLayout.visibility = View.VISIBLE
-        noDataLayout.visibility = View.GONE
-    }
-
-    override fun showNoData() {
-        // データが存在しないとき用のViewを表示
-        taskDetailLayout.visibility = View.GONE
-        noDataLayout.visibility = View.VISIBLE
     }
 
     override fun showError() {

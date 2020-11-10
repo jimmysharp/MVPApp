@@ -7,7 +7,7 @@
     android:layout_height="match_parent">
 
     <!-- 「引っ張って更新」用のレイアウト -->
-    <com.example.mvpapp.ui.ScrollChildSwipeRefreshLayout
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/refresh_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -44,7 +44,7 @@
 
         </LinearLayout>
 
-    </com.example.mvpapp.ui.ScrollChildSwipeRefreshLayout>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     <!-- タスク保存ボタン -->
     <com.google.android.material.floatingactionbutton.FloatingActionButton

@@ -9,11 +9,11 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import com.example.mvpapp.R
 import com.example.mvpapp.data.Task
-import com.example.mvpapp.ui.ScrollChildSwipeRefreshLayout
 
 class EditTaskFragment : Fragment(), EditTaskContract.View {
 
@@ -25,7 +25,7 @@ class EditTaskFragment : Fragment(), EditTaskContract.View {
 
     // Viewオブジェクト
     private lateinit var rootLayout: ViewGroup
-    private lateinit var refreshLayout: ScrollChildSwipeRefreshLayout
+    private lateinit var refreshLayout: SwipeRefreshLayout
     private lateinit var titleText: EditText
     private lateinit var descriptionText: EditText
     private lateinit var fab: FloatingActionButton
@@ -56,7 +56,6 @@ class EditTaskFragment : Fragment(), EditTaskContract.View {
         super.onActivityCreated(savedInstanceState)
 
         presenter = EditTaskInjection.providePresenter(this, this.requireContext())
-        setupRefreshLayout()
         setupFab()
     }
 
@@ -108,10 +107,6 @@ class EditTaskFragment : Fragment(), EditTaskContract.View {
     //
     // privateメソッド
     //
-
-    private fun setupRefreshLayout() {
-        refreshLayout.scrollUpChild = null
-    }
 
     private fun setupFab() {
         fab.setOnClickListener {
