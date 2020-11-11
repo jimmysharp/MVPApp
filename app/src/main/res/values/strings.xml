@@ -5,15 +5,7 @@
     <string name="title_edit_task">Edit Task</string>
     <string name="title_task_detail">Task Detail</string>
 
-    <string name="navigation_view_header_title">ToDo</string>
-
-    <string name="no_tasks">No Tasks</string>
     <string name="task_delete">Delete all tasks</string>
     <string name="task_title_hint">Task title</string>
     <string name="task_description_hint">Task description</string>
-    <string name="no_data">No Data</string>
-
-    <!-- Content Descriptions -->
-    <string name="tasks_header_image_content_description">Tasks header image</string>
-    <string name="no_tasks_image_content_description">No tasks image</string>
 </resources>
