@@ -11,7 +11,7 @@ object TodoApiInjection {
 
     // アクセス先URL
     // PCのlocalhostを利用する場合、10.0.2.2を使う
-    private const val API_BASEURL = "https://10.0.2.2:3000/"
+    private const val API_BASEURL = "http://10.0.2.2:80/"
 
     private val retrofit: Retrofit
     private val api: TodoApi

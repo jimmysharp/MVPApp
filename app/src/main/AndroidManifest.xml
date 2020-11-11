@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.mvpapp">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <!-- アプリケーション定義 -->
     <application
         android:allowBackup="false"
@@ -10,7 +12,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        android:name="com.example.mvpapp.MainApplication">
+        android:name="com.example.mvpapp.MainApplication"
+        android:usesCleartextTraffic="true">
         <!-- Activity定義 -->
         <activity
             android:name="com.example.mvpapp.ui.MainActivity"

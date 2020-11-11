@@ -58,7 +58,7 @@ class TaskDiffCallback: DiffUtil.ItemCallback<Task>() {
     // 何を元に同じ要素とみなすか
     // falseの場合、要素の追加・削除が行われる
     override fun areItemsTheSame(oldItem: Task, newItem: Task): Boolean {
-        return oldItem.id == newItem.id
+        return oldItem.taskId == newItem.taskId
     }
 
     // 何を元に要素の中身が変わっていないとみなすか

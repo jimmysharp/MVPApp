@@ -46,7 +46,7 @@ class TaskListPresenter(
     }
 
     override fun openTaskDetail(task: Task) {
-        view.navigateTaskDetail(task.id)
+        view.navigateTaskDetail(task.taskId)
     }
 
     override fun addTask() {
