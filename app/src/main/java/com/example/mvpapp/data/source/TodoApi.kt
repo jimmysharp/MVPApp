@@ -9,9 +9,7 @@ interface TodoApi {
     @GET("{userId}/tasks")
     fun getAllTasks(@Path("userId") userId: String): Call<List<Task>>
 
-    // タスク取得
-    @GET("{userId}/tasks/{taskId}")
-    fun getTask(@Path("userId") userId: String, @Path("taskId") taskId: String): Call<Task>
+    // TODO 演習2 : タスク取得API定義
 
     // タスク新規作成
     @Headers("Content-Type:application/json")

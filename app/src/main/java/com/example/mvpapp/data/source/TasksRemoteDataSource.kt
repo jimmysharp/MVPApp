@@ -18,8 +18,10 @@ class TasksRemoteDataSource(
     override fun getAllTasks(callback: TasksDataSource.GetAllTasksCallback) {
         todoApi.getAllTasks(USER_ID).enqueue(object : Callback<List<Task>>{
             override fun onResponse(call: Call<List<Task>>, response: Response<List<Task>>) {
-                if(response.isSuccessful){
-                    callback.onSuccess(response.body()!!)
+                val body = response.body()
+
+                if(response.isSuccessful && body != null){
+                    callback.onSuccess(body)
                 }
                 else {
                     callback.onError(IllegalArgumentException("Failed to parse response"))
@@ -33,20 +35,21 @@ class TasksRemoteDataSource(
     }
 
     override fun getTask(taskId: String, callback: TasksDataSource.GetTaskCallback) {
-        todoApi.getTask(USER_ID, taskId).enqueue(object : Callback<Task>{
-            override fun onResponse(call: Call<Task>, response: Response<Task>) {
-                if(response.isSuccessful){
-                    callback.onSuccess(response.body()!!)
-                }
-                else {
-                    callback.onError(IllegalArgumentException("Failed to parse response"))
-                }
-            }
+        // TODO 演習2 : タスク取得処理
+        /*
+        以下の処理が必要
 
-            override fun onFailure(call: Call<Task>, t: Throwable) {
-                callback.onError(t)
-            }
-        })
+        - タスクIDを元にタスク取得APIを呼び出す
+        - 呼び出し後の処理で以下を行う
+          - 通信成功時
+            - レスポンスパースに成功し、ボディを取得できた場合
+              - コールバックのonSuccessを呼び、成功処理を行わせる
+            - レスポンスパースに失敗した場合
+              - コールバックのonErrorを呼び、失敗処理を行わせる
+              - 適切な例外を渡す(今回はIllegalArgumentException)
+          - 通信失敗時
+            - コールバックのonErrorを呼び、失敗処理を行わせる
+         */
     }
 
     override fun createTask(
