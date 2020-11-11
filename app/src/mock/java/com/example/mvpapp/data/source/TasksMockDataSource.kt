@@ -51,7 +51,7 @@ class TasksMockDataSource() : TasksDataSource{
             title,
             description
         )
-        tasks[task.id] = task
+        tasks[task.taskId] = task
 
         Handler(Looper.getMainLooper()).postDelayed({
             callback.onSuccess()
@@ -60,7 +60,7 @@ class TasksMockDataSource() : TasksDataSource{
 
     override fun updateTask(task: Task, callback: TasksDataSource.UpdateTaskCallback) {
         // 該当タスクの更新
-        tasks[task.id] = task
+        tasks[task.taskId] = task
 
         Handler(Looper.getMainLooper()).postDelayed({
             callback.onSuccess()

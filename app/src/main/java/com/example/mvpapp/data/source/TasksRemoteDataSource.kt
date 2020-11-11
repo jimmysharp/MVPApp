@@ -74,7 +74,7 @@ class TasksRemoteDataSource(
     }
 
     override fun updateTask(task: Task, callback: TasksDataSource.UpdateTaskCallback) {
-        todoApi.updateTask(USER_ID, task.id, task).enqueue(object : Callback<Unit>{
+        todoApi.updateTask(USER_ID, task.taskId, task).enqueue(object : Callback<Unit>{
             override fun onResponse(call: Call<Unit>, response: Response<Unit>) {
                 if(response.isSuccessful){
                     callback.onSuccess()
