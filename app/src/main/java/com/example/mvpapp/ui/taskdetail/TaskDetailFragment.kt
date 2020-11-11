@@ -54,7 +54,8 @@ class TaskDetailFragment : Fragment(), TaskDetailContract.View {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        // TODO 演習1 : Presenterを初期化
+        // Presenterを初期化
+        presenter = TaskDetailInjection.providePresenter(this)
 
         setupFab()
     }
@@ -62,14 +63,13 @@ class TaskDetailFragment : Fragment(), TaskDetailContract.View {
     override fun onResume() {
         super.onResume()
 
-        // TODO 演習1 : Presenterをstart
-        // hint: taskIdはargs.taskIdから取れる
+        presenter.start(args.taskId)
     }
 
     override fun onPause() {
         super.onPause()
 
-        // TODO 演習1 : Presenterをstop
+        presenter.stop()
     }
 
     //
@@ -110,6 +110,8 @@ class TaskDetailFragment : Fragment(), TaskDetailContract.View {
     //
 
     private fun setupFab() {
-        // TODO 演習1 : FABが押された時、タスク編集
+        fab.setOnClickListener {
+            presenter.editTask()
+        }
     }
 }

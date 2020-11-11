@@ -14,39 +14,40 @@ class TaskDetailPresenter(
     private lateinit var taskId: String
 
     override fun start(taskId: String) {
-        // TODO 演習1 : 画面スタート時の処理
-        /*
-        以下の処理が必要
+        // フラグ更新
+        isActivated = true
+        // タスクIDを保存
+        this.taskId = taskId
 
-        - 受け取ったタスクIDを保存
-        - 稼働中フラグをtrueに
-        - ロード中表示を出す
-        - タスクIDを元に、タスクを取得
-          - 成功の場合
-            - ロード中表示を消す
-            - 取得したタスクを表示
-          - 失敗の場合
-            - ロード中表示を消す
-            - 取得したタスクを表示
-          - 処理完了時に画面が消えている可能性があるので、稼働中かを判別する必要あり
-         */
+        // データ取得開始
+        view.showLoadingIndicator()
+        dataSource.getTask(taskId, object : TasksDataSource.GetTaskCallback{
+            override fun onSuccess(task: Task) {
+                if(isActivated) {
+                    // データ取得できた場合は表示
+                    view.hideLoadingIndicator()
+                    view.showTaskDetail(task)
+                }
+            }
+
+            override fun onError(t: Throwable) {
+                if(isActivated) {
+                    // 取得失敗した場合はエラー表示
+                    view.hideLoadingIndicator()
+                    view.showError()
+                }
+            }
+
+        })
     }
 
     override fun stop() {
-        // TODO 演習1 : 画面ストップ時の処理
-        /*
-        以下の処理が必要
-
-        - 稼働中フラグをfalseに
-         */
+        // フラグ更新
+        isActivated = false
     }
 
     override fun editTask() {
-        // TODO 演習1 : タスク編集を呼び出された場合の処理
-        /*
-        以下の処理が必要
-
-        - タスク編集画面へ遷移
-         */
+        // Viewで遷移してもらう
+        view.navigateEditTask(taskId)
     }
 }
