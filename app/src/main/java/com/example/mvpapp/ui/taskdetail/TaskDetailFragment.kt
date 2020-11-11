@@ -25,7 +25,6 @@ class TaskDetailFragment : Fragment(), TaskDetailContract.View {
     // Viewオブジェクト
     private lateinit var rootLayout: ViewGroup
     private lateinit var refreshLayout: SwipeRefreshLayout
-    private lateinit var taskDetailLayout: ViewGroup
     private lateinit var title: TextView
     private lateinit var description: TextView
     private lateinit var fab: FloatingActionButton
@@ -45,7 +44,6 @@ class TaskDetailFragment : Fragment(), TaskDetailContract.View {
         // Viewオブジェクトの取得
         rootLayout = root.findViewById(R.id.task_detail_container)
         refreshLayout = root.findViewById(R.id.refresh_layout)
-        taskDetailLayout = root.findViewById(R.id.task_detail_layout)
         title = root.findViewById(R.id.task_detail_title)
         description = root.findViewById(R.id.task_detail_description)
         fab = root.findViewById(R.id.edit_task_fab)
@@ -56,7 +54,7 @@ class TaskDetailFragment : Fragment(), TaskDetailContract.View {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        presenter = TaskDetailInjection.providePresenter(this, this.requireContext())
+        presenter = TaskDetailInjection.providePresenter(this)
         setupFab()
     }
 

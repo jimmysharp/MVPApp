@@ -4,9 +4,9 @@ import android.content.Context
 import com.example.mvpapp.Injection
 
 object TaskListInjection {
-    fun providePresenter(view: TaskListContract.View, context: Context): TaskListContract.Presenter {
+    fun providePresenter(view: TaskListContract.View): TaskListContract.Presenter {
         return TaskListPresenter(
             view,
-            Injection.provideTasksDataSource(context))
+            Injection.provideTasksDataSource())
     }
 }

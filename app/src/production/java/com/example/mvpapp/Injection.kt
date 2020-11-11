@@ -9,7 +9,7 @@ object Injection {
 
     private val tasksDataSource = TasksRemoteDataSource(TodoApiInjection.provideTodoApi())
 
-    fun provideTasksDataSource(context: Context): TasksDataSource {
+    fun provideTasksDataSource(): TasksDataSource {
         return tasksDataSource
     }
 }

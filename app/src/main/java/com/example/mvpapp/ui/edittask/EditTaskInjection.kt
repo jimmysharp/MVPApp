@@ -5,9 +5,8 @@ import com.example.mvpapp.Injection
 
 object EditTaskInjection {
     fun providePresenter(
-        view: EditTaskContract.View,
-        context: Context
+        view: EditTaskContract.View
     ): EditTaskContract.Presenter {
-        return EditTaskPresenter(view, Injection.provideTasksDataSource(context))
+        return EditTaskPresenter(view, Injection.provideTasksDataSource())
     }
 }

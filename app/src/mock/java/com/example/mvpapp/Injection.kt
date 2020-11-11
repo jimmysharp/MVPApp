@@ -8,7 +8,7 @@ object Injection {
 
     private val tasksDataSource = TasksMockDataSource()
 
-    fun provideTasksDataSource(context: Context): TasksDataSource {
+    fun provideTasksDataSource(): TasksDataSource {
         return tasksDataSource
     }
 }

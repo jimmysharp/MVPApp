@@ -14,10 +14,11 @@ class EditTaskPresenter(
     private var taskId: String? = null
 
     override fun start(taskId: String?) {
+        view.hideLoadingIndicator()
+
+        // 画面開始時にタスクを読み込む
         this.taskId = taskId
         isActivated = true
-
-        view.hideLoadingIndicator()
 
         // タスクIDを指定して呼び出された場合(更新処理の場合)
         // 既存タスクのデータを読み込む
@@ -52,6 +53,7 @@ class EditTaskPresenter(
     override fun saveTask(title: String, description: String) {
         val currentTaskId = taskId
 
+        // ロード中表示を出す
         view.showLoadingIndicator()
 
         if (currentTaskId != null) {

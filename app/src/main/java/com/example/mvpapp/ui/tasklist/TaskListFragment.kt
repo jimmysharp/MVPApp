@@ -2,7 +2,6 @@ package com.example.mvpapp.ui.tasklist
 
 import android.os.Bundle
 import android.view.*
-import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
@@ -18,9 +17,9 @@ class TaskListFragment : Fragment(), TaskListContract.View {
     private lateinit var presenter: TaskListContract.Presenter
 
     // Viewオブジェクト
-    private lateinit var rootLayout: CoordinatorLayout
+    private lateinit var rootLayout: ViewGroup
     private lateinit var refreshLayout: SwipeRefreshLayout
-    private lateinit var taskList: RecyclerView
+    private lateinit var taskListView: RecyclerView
     private lateinit var taskListAdapter: TaskListAdapter
     private lateinit var fab: FloatingActionButton
 
@@ -36,7 +35,7 @@ class TaskListFragment : Fragment(), TaskListContract.View {
         val root = inflater.inflate(R.layout.task_list_fragment, container, false)
         rootLayout = root.findViewById(R.id.task_list_container)
         refreshLayout = root.findViewById(R.id.refresh_layout)
-        taskList = root.findViewById(R.id.tasks_list)
+        taskListView = root.findViewById(R.id.tasks_list)
         fab = root.findViewById(R.id.add_task_fab)
 
         // メニューを表示させる
@@ -55,7 +54,7 @@ class TaskListFragment : Fragment(), TaskListContract.View {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        presenter = TaskListInjection.providePresenter(this, this.requireContext())
+        presenter = TaskListInjection.providePresenter(this)
         setupRecyclerView()
         setupRefreshLayout()
         setupFab()
@@ -127,7 +126,7 @@ class TaskListFragment : Fragment(), TaskListContract.View {
         taskListAdapter = TaskListAdapter({ task ->
             presenter.openTaskDetail(task)
         })
-        taskList.adapter = taskListAdapter
+        taskListView.adapter = taskListAdapter
     }
 
     private fun setupRefreshLayout() {

@@ -4,7 +4,7 @@ import com.example.mvpapp.data.Task
 
 interface EditTaskContract {
     interface View {
-        // タスク詳細の表示
+        // 設定済みのタスク詳細を表示
         fun setTaskDetail(task: Task)
         // 実行エラー表示
         // 本来はエラー種別ごとにメッセージを用意すべきだが、今回は1つだけ

@@ -13,6 +13,8 @@ class TaskListPresenter(
 
     override fun start() {
         view.hideLoadingIndicator()
+
+        // 最初にタスクを読み込む
         loadTasks()
 
         isActivated = true
@@ -23,16 +25,21 @@ class TaskListPresenter(
     }
 
     override fun loadTasks() {
+        // ロード中表示を出す
         view.showLoadingIndicator()
 
+        // タスク取得開始
         dataSource.getAllTasks(object : TasksDataSource.GetAllTasksCallback{
             override fun onSuccess(tasks: List<Task>) {
-                view.showTasks(tasks)
+                // 成功したらタスクを表示し、ロード中表示を消す
                 view.hideLoadingIndicator()
+                view.showTasks(tasks)
             }
 
             override fun onError(t: Throwable) {
+                // 失敗したらエラー表示し、ロード中表示を消す
                 view.hideLoadingIndicator()
+                view.showError()
             }
 
         })
@@ -47,15 +54,19 @@ class TaskListPresenter(
     }
 
     override fun deleteAllTasks() {
+        // ロード中表示を出す
         view.showLoadingIndicator()
 
+        // タスク削除開始
         dataSource.deleteAllTasks(object : TasksDataSource.DeleteAllTasksCallback{
             override fun onSuccess() {
+                // 成功したらタスクを表示し、ロード中表示を消す
                 view.hideLoadingIndicator()
                 loadTasks()
             }
 
             override fun onError(t: Throwable) {
+                // 失敗したらエラー表示し、ロード中表示を消す
                 view.hideLoadingIndicator()
                 view.showError()
             }

@@ -14,6 +14,7 @@ class TaskDetailPresenter(
     private lateinit var taskId: String
 
     override fun start(taskId: String) {
+        // 画面開始時にタスクを読み込む
         this.taskId = taskId
         isActivated = true
 

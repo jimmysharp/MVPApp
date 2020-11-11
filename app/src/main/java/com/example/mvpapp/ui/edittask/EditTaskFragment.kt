@@ -26,8 +26,8 @@ class EditTaskFragment : Fragment(), EditTaskContract.View {
     // Viewオブジェクト
     private lateinit var rootLayout: ViewGroup
     private lateinit var refreshLayout: SwipeRefreshLayout
-    private lateinit var titleText: EditText
-    private lateinit var descriptionText: EditText
+    private lateinit var titleEditText: EditText
+    private lateinit var descriptionEditText: EditText
     private lateinit var fab: FloatingActionButton
 
     //
@@ -45,8 +45,8 @@ class EditTaskFragment : Fragment(), EditTaskContract.View {
         // Viewオブジェクトの取得
         rootLayout = root.findViewById(R.id.edit_task_container)
         refreshLayout = root.findViewById(R.id.refresh_layout)
-        titleText = root.findViewById(R.id.edit_task_title_edit_text)
-        descriptionText = root.findViewById(R.id.edit_task_description_edit_text)
+        titleEditText = root.findViewById(R.id.edit_task_title_edit_text)
+        descriptionEditText = root.findViewById(R.id.edit_task_description_edit_text)
         fab = root.findViewById(R.id.save_task_fab)
 
         return root
@@ -55,7 +55,7 @@ class EditTaskFragment : Fragment(), EditTaskContract.View {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        presenter = EditTaskInjection.providePresenter(this, this.requireContext())
+        presenter = EditTaskInjection.providePresenter(this)
         setupFab()
     }
 
@@ -76,9 +76,9 @@ class EditTaskFragment : Fragment(), EditTaskContract.View {
     //
 
     override fun setTaskDetail(task: Task) {
-        // TextViewの書き換え
-        titleText.setText(task.title, TextView.BufferType.NORMAL)
-        descriptionText.setText(task.description, TextView.BufferType.NORMAL)
+        // EditTextの書き換え
+        titleEditText.setText(task.title, TextView.BufferType.NORMAL)
+        descriptionEditText.setText(task.description, TextView.BufferType.NORMAL)
     }
 
     override fun showError() {
@@ -111,8 +111,8 @@ class EditTaskFragment : Fragment(), EditTaskContract.View {
     private fun setupFab() {
         fab.setOnClickListener {
             presenter.saveTask(
-                titleText.text.toString(),
-                descriptionText.text.toString()
+                titleEditText.text.toString(),
+                descriptionEditText.text.toString()
             )
         }
     }

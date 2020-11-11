@@ -4,7 +4,7 @@ import android.content.Context
 import com.example.mvpapp.Injection
 
 object TaskDetailInjection {
-    fun providePresenter(view: TaskDetailContract.View ,context: Context): TaskDetailContract.Presenter {
-        return TaskDetailPresenter(view, Injection.provideTasksDataSource(context))
+    fun providePresenter(view: TaskDetailContract.View): TaskDetailContract.Presenter {
+        return TaskDetailPresenter(view, Injection.provideTasksDataSource())
     }
 }
